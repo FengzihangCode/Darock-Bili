@@ -35,7 +35,7 @@ struct Provider: TimelineProvider {
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<MeowWidgetEntry>) -> Void) {
-        let refreshInterval = UserDefaults.standard.integer(forKey: widgetrefreshInterval)
+        let refreshInterval = UserDefaults.standard.integer(forKey: refreshInterval)
         BiliBiliAPIService.shared.fetchPopularVideos { videos in
             let entries: [MeowWidgetEntry] = videos.enumerated().map { index, video in
                 let interval = refreshInterval * 60 // 每10分钟更新
@@ -138,14 +138,6 @@ struct MeowWidgetView: View {
         }
     }
 }
-    
-    private var families: [WidgetFamily] {
-        #if os(watchOS)
-        return [.accessoryInline, .accessoryCircular, .accessoryRectangular]
-        #else
-        return [.systemSmall, .systemMedium, .systemLarge, .accessoryCircular, .accessoryRectangular]
-        #endif
-    }
 
 struct MeowWidget: Widget {
     let kind: String = "MeowWidget"

@@ -82,10 +82,7 @@ struct SettingsView: View {
                         Text("声音与触感")
                     }
                 })
-                NavigationLink(destination: {
-                    WidgetSettingsView()
-                        .navigationTitle("小组件")
-                }, label: {
+                NavigationLink(destination: { WidgetSettingsView().navigationTitle("小组件")}, label: {
                     HStack{
                         ZStack{
                             Color.blue
@@ -95,6 +92,7 @@ struct SettingsView: View {
                                 .font(.system(size: 16))
                                 .foregroundColor(.white)
                         }
+                        Text("小组件")
                     }
                 })
                 NavigationLink(destination: { ScreenTimeSettingsView().navigationTitle("Settings.screen-time") }, label: {
@@ -659,12 +657,11 @@ struct WidgetSettingsView: View {
                     Text("2小时").tag(120)
                 }
                 .pickerStyle(MenuPickerStyle())
-                .onChange(of: refreshInterval, newValue in){
+                .onChange(of: refreshInterval, newValue, in){
                     print("Picked: \(newValue)")
                 }
             }
         }
-        //Open BiliBili instead of MeowBili
     }
 }
 
