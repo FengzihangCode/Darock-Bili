@@ -35,9 +35,10 @@ struct Provider: TimelineProvider {
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<MeowWidgetEntry>) -> Void) {
+        let refreshInterval = UserDefaults.standard.integer(forKey: widgetrefreshInterval)
         BiliBiliAPIService.shared.fetchPopularVideos { videos in
             let entries: [MeowWidgetEntry] = videos.enumerated().map { index, video in
-                let interval = 10 * 60 // 每10分钟更新
+                let interval = refreshInterval * 60 // 每10分钟更新
                 let date = Calendar.current.date(byAdding: .second, value: interval * index, to: Date()) ?? Date()
                 return MeowWidgetEntry(date: date, video: video)
             }

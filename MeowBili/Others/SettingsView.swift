@@ -82,6 +82,21 @@ struct SettingsView: View {
                         Text("声音与触感")
                     }
                 })
+                NavigationLink(destination: {
+                    WidgetSettingsView()
+                        .navigationTitle("小组件")
+                }, label: {
+                    HStack{
+                        ZStack{
+                            Color.blue
+                                .frame(width: 26, height: 26)
+                                .clipShape(RoundedRectangle(cornerRadius: 5))
+                            Image(systemName: "widget.small")
+                                .font(.system(size: 16))
+                                .foregroundColor(.white)
+                        }
+                    }
+                })
                 NavigationLink(destination: { ScreenTimeSettingsView().navigationTitle("Settings.screen-time") }, label: {
                     HStack {
                         ZStack {
@@ -570,6 +585,86 @@ struct SoundAHapticSettingsView: View {
                 Text("触感")
             }
         }
+    }
+}
+
+struct WidgetSettingsView: View {
+    @AppStorage("widgetRefreshInterval") var refreshInterval: Int = 10
+    @State var isNewToWidget = true
+    var body: some View {
+        //Tell users that they can add widgets
+        if isNewToWidget{
+            VStack {
+                if #available(iOS 18.0, *) {
+                    RoundedRectangle(cornerRadius: 15)
+                        .fill(Color.gray.opacity(0.1))
+                        .frame(height: 150)
+                        .overlay(
+                            Image(systemName: "widget.small.badge.plus")
+                                .contentTransition(.symbolEffect(.replace.magic(fallback: .downUp.byLayer), options: .nonRepeating))
+                        )
+                        .overlay(
+                            VStack {
+                                Text("探索小组件")
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                                    .padding(.top, 10)
+                                Text("在桌面上添加小组件，增强浏览体验")
+                                    .font(.body)
+                                    .multilineTextAlignment(.center)
+                                    .padding(.top, 5)
+                                    .padding(.horizontal, 20)
+                            }
+                                .padding(.top, 20)
+                        )
+                    Spacer()
+                } else {
+                    RoundedRectangle(cornerRadius: 15)
+                        .fill(Color.gray.opacity(0.1))
+                        .frame(height: 150)
+                        .overlay(
+                            Image(systemName: "widget.small.badge.plus")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 60, height: 60)
+                                .padding(.top, 20)
+                        )
+                        .overlay(
+                            VStack {
+                                Text("探索小组件")
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                                    .padding(.top, 10)
+                                Text("在桌面上添加小组件，增强浏览体验")
+                                    .font(.body)
+                                    .multilineTextAlignment(.center)
+                                    .padding(.top, 5)
+                                    .padding(.horizontal, 20)
+                            }
+                                .padding(.top, 20)
+                        )
+                    Spacer()
+                }
+            }
+        }
+        //Edit your refresh time
+        Form {
+            Section(header: Text("小组件刷新时间")){
+                Picker("刷新时间", selection: $refreshInterval){
+                    Text("5分钟").tag(5)
+                    Text("10分钟").tag(10)
+                    Text("15分钟").tag(15)
+                    Text("30分钟").tag(30)
+                    Text("1小时").tag(60)
+                    Text("2小时").tag(120)
+                }
+                .pickerStyle(MenuPickerStyle())
+                .onChange(of: refreshInterval, newValue in){
+                    print("Picked: \(newValue)")
+                }
+            }
+        }
+        //Open BiliBili instead of MeowBili
     }
 }
 
