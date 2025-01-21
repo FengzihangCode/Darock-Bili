@@ -573,6 +573,54 @@ struct SoundAHapticSettingsView: View {
     }
 }
 
+<<<<<<< Updated upstream
+=======
+struct WidgetSettingsView: View {
+    @AppStorage("widgetRefreshInterval") var refreshInterval: Int = 10
+    @AppStorage("widgetOpenWithBiliBili") var openWithBili = false
+    
+    var body: some View {
+        Form {
+            //How to add widgets
+            Section(header: Text("添加小组件")){
+                VStack{
+                    Spacer()
+                    Image(systemName: "widget.small.badge.plus")
+                        .scaledToFit()
+                    Spacer()
+                    Text("要添加小组件，长按主屏幕上的任意空白区域，直到App开始晃动，轻点左上角的“编辑”或“+”按钮，选择MeowBili小组件，选取小组件尺寸，然后轻点“添加小组件”，将小组件移到屏幕上想要放置的位置，然后轻点“完成”。")
+                    Spacer()
+            }
+                
+            }
+            
+            // Here we go refreshment settings
+            Section(header: Text("小组件刷新时间")){
+                Picker("刷新时间", selection: $refreshInterval){
+                    Text("5分钟").tag(5)
+                    Text("10分钟（默认）").tag(10)
+                    Text("15分钟").tag(15)
+                    Text("30分钟").tag(30)
+                    Text("1小时").tag(60)
+                    Text("2小时").tag(120)
+                }
+            }
+            
+            // Customize which app to open the links in future updates
+            /*
+             Section {
+             Toggle("使用哔哩哔哩打开小组件视频", isOn: $openWithBili)
+             } header: {
+             Text("打开应用程序")
+             } footer: {
+             Text("要通过哔哩哔哩打开小组件中展示的视频，你需要在设备上安装哔哩哔哩客户端。该选项默认关闭。")
+             }
+             */
+        }
+    }
+}
+
+>>>>>>> Stashed changes
 struct ScreenTimeSettingsView: View {
     @AppStorage("IsScreenTimeEnabled") var isScreenTimeEnabled = true
     @State var screenTimes = [Int]()
